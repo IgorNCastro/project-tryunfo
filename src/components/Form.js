@@ -1,7 +1,22 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class Form extends React.Component {
   render() {
+    const {
+      cardName,
+      cardDescription,
+      cardAttr1,
+      cardAttr2,
+      cardAttr3,
+      cardImage,
+      cardRare,
+      cardTrunfo,
+      isSaveButtonDisabled,
+      onInputChange,
+      onSaveButtonClick,
+    } = this.props;
+
     return (
       <div>
         <form>
@@ -11,10 +26,12 @@ class Form extends React.Component {
             <br />
             <input
               type="text"
-              name="nome"
+              name="name-input"
               id="card-name"
               placeholder="Nome da Carta"
               data-testid="name-input"
+              value={ cardName }
+              onChange={ onInputChange }
               required
             />
           </label>
@@ -23,10 +40,12 @@ class Form extends React.Component {
             Descrição
             <br />
             <textarea
-              name="description"
+              name="description-input"
               id="card-description"
               placeholder="Descrição da Carta"
               data-testid="description-input"
+              value={ cardDescription }
+              onChange={ onInputChange }
               required
             />
           </label>
@@ -35,12 +54,14 @@ class Form extends React.Component {
             Ataque
             <input
               type="number"
-              name="att-01"
+              name="attr1-input"
               id="card-att-01"
               placeholder="Valor de Ataque"
               data-testid="attr1-input"
               min="0"
               max="90"
+              value={ cardAttr1 }
+              onChange={ onInputChange }
               required
             />
           </label>
@@ -49,12 +70,14 @@ class Form extends React.Component {
             Defesa
             <input
               type="number"
-              name="att-02"
+              name="attr2-input"
               id="card-att-02"
               placeholder="Valor de Defesa"
               data-testid="attr2-input"
               min="0"
               max="90"
+              value={ cardAttr2 }
+              onChange={ onInputChange }
               required
             />
           </label>
@@ -63,12 +86,14 @@ class Form extends React.Component {
             Físico
             <input
               type="number"
-              name="att-03"
+              name="attr3-input"
               id="card-att-03"
               placeholder="Valor de Defesa"
               data-testid="attr3-input"
               min="0"
               max="90"
+              value={ cardAttr3 }
+              onChange={ onInputChange }
               required
             />
           </label>
@@ -77,18 +102,22 @@ class Form extends React.Component {
             Imagem
             <input
               type="text"
-              name="imagem"
+              name="image-input"
               id="card-image"
               placeholder="Imagem da Carta"
               data-testid="image-input"
+              value={ cardImage }
+              onChange={ onInputChange }
               required
             />
           </label>
           <br />
           Raridade
           <select
-            name="raridade"
+            name="rare-input"
             data-testid="rare-input"
+            value={ cardRare }
+            onChange={ onInputChange }
           >
             <option>normal</option>
             <option>raro</option>
@@ -99,19 +128,43 @@ class Form extends React.Component {
             <input
               type="checkbox"
               id="check"
-              name="checkbox"
+              name="trunfo-input"
               data-testid="trunfo-input"
+              checked={ cardTrunfo }
+              onChange={ onInputChange }
               required
             />
             Super Trunfo
           </label>
           <div>
-            <button type="submit" name="salvar" data-testid="save-button">Salvar</button>
+            <button
+              type="submit"
+              name="save-button"
+              data-testid="save-button"
+              disabled={ isSaveButtonDisabled }
+              onClick={ onSaveButtonClick }
+            >
+              Salvar
+            </button>
           </div>
         </form>
       </div>
     );
   }
 }
+
+Form.propTypes = {
+  cardName: PropTypes.string.isRequired,
+  cardDescription: PropTypes.string.isRequired,
+  cardAttr1: PropTypes.string.isRequired,
+  cardAttr2: PropTypes.string.isRequired,
+  cardAttr3: PropTypes.string.isRequired,
+  cardImage: PropTypes.string.isRequired,
+  cardRare: PropTypes.string.isRequired,
+  cardTrunfo: PropTypes.bool.isRequired,
+  isSaveButtonDisabled: PropTypes.bool.isRequired,
+  onInputChange: PropTypes.func.isRequired,
+  onSaveButtonClick: PropTypes.func.isRequired,
+};
 
 export default Form;
