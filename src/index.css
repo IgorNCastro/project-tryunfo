@@ -34,6 +34,7 @@ form {
   display: flex;
   flex-direction: column;
   align-items: stretch;
+  margin: 0 0 0 40px;
 }
 
 input {
@@ -84,7 +85,7 @@ textarea {
   flex-direction: column;
   border: 3px solid black;
   border-radius: 10%;
-  margin: 15px;
+  margin: 20px 5px 5px 0;
   max-width: 250px;
   max-height: 500px;
   padding: 50px;
@@ -151,7 +152,7 @@ button:disabled {
   position: relative;
   top: 50px;
   left:-50px;
-  margin: 200px 20px;
+  margin: 250px 120px;
 }
 
 .ball {
