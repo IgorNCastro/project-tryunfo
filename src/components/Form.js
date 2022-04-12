@@ -113,23 +113,24 @@ class Form extends React.Component {
             />
           </label>
           <br />
-          Raridade
-          <select
-            name="cardRare"
-            data-testid="rare-input"
-            onChange={ onInputChange }
-            defaultValue={ cardRare }
-          >
-            <option>normal</option>
-            <option>raro</option>
-            <option>muito raro</option>
-          </select>
+          <label htmlFor="rare-select">
+            Raridade:
+            <select
+              id="rare-select"
+              name="cardRare"
+              data-testid="rare-input"
+              onChange={ onInputChange }
+              value={ cardRare }
+            >
+              <option>normal</option>
+              <option>raro</option>
+              <option>muito raro</option>
+            </select>
+          </label>
           <br />
           {
             hasTrunfo
-              ? <p>
-                Você já tem um Super Trunfo em seu baralho
-                </p>
+              ? <p>Você já tem um Super Trunfo em seu baralho</p>
               : <label htmlFor="check">
                 Super Trunfo
                 <input

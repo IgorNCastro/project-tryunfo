@@ -70,6 +70,7 @@ class App extends React.Component {
 
     // Extraído de https://stackoverflow.com/questions/26505064/what-is-the-best-way-to-add-a-value-to-an-array-in-state
     this.setState((previousState) => ({
+      savedCards: [...previousState.savedCards, currentCard],
       cardName: '',
       cardDescription: '',
       cardAttr1: '0',
@@ -79,7 +80,6 @@ class App extends React.Component {
       cardRare: 'normal',
       cardTrunfo: false,
       isSaveButtonDisabled: true,
-      savedCards: [...previousState.savedCards, currentCard],
     }));
   }
 
