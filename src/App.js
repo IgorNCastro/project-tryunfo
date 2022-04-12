@@ -1,6 +1,7 @@
 import React from 'react';
 import Form from './components/Form';
 import Card from './components/Card';
+import Deck from './components/Deck';
 
 class App extends React.Component {
   constructor() {
@@ -8,7 +9,8 @@ class App extends React.Component {
 
     this.onInputChange = this.onInputChange.bind(this);
     this.checkButton = this.checkButton.bind(this);
-    // this.onSaveButtonClick = this.onSaveButtonClick.bind(this);
+    this.onSaveButtonClick = this.onSaveButtonClick.bind(this);
+    this.deleteButtonClick = this.deleteButtonClick.bind(this);
 
     this.state = {
       cardName: '',
@@ -21,10 +23,11 @@ class App extends React.Component {
       cardTrunfo: false,
       hasTrunfo: false,
       isSaveButtonDisabled: true,
+      savedCards: [],
     };
   }
 
-  // Código da linha 33 e 57 e 61 retirado de dúvida no Slack do colega Yuri Resende, respondidos pelos colegas Italo Rockenbach e Giuseppe Nunes.
+  // Código das linhas 34/35 e 105/109 retirado de dúvida postada no Slack do colega Yuri Resende, respondidos pelos colegas Italo Rockenbach e Giuseppe Nunes.
   onInputChange({ target }) {
     const { name } = target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -33,6 +36,51 @@ class App extends React.Component {
     }, () => {
       this.checkButton();
     });
+  }
+
+  onSaveButtonClick(event) {
+    event.preventDefault();
+    const {
+      cardName,
+      cardDescription,
+      cardImage,
+      cardRare,
+      cardAttr1,
+      cardAttr2,
+      cardAttr3,
+      cardTrunfo,
+    } = this.state;
+
+    if (cardTrunfo) {
+      this.setState({
+        hasTrunfo: true,
+      });
+    }
+
+    const currentCard = {
+      cardName,
+      cardDescription,
+      cardImage,
+      cardRare,
+      cardAttr1,
+      cardAttr2,
+      cardAttr3,
+      cardTrunfo,
+    };
+
+    // Extraído de https://stackoverflow.com/questions/26505064/what-is-the-best-way-to-add-a-value-to-an-array-in-state
+    this.setState((previousState) => ({
+      cardName: '',
+      cardDescription: '',
+      cardAttr1: '0',
+      cardAttr2: '0',
+      cardAttr3: '0',
+      cardImage: '',
+      cardRare: 'normal',
+      cardTrunfo: false,
+      isSaveButtonDisabled: true,
+      savedCards: [...previousState.savedCards, currentCard],
+    }));
   }
 
   checkButton() {
@@ -64,6 +112,29 @@ class App extends React.Component {
     }
   }
 
+  deleteButtonClick(event) {
+    event.preventDefault();
+    const {
+      savedCards,
+    } = this.state;
+
+    const selectedCard = savedCards.find((item) => item.cardName === event.target.id);
+    if (selectedCard.cardTrunfo) {
+      this.setState({
+        hasTrunfo: false,
+      });
+    }
+
+    for (let i = 0; i < savedCards.length; i += 1) {
+      if (savedCards[i].cardName === event.target.id) {
+        savedCards.splice(i, 1);
+      }
+    }
+    this.setState({
+      savedCards,
+    });
+  }
+
   render() {
     const {
       cardName,
@@ -76,6 +147,7 @@ class App extends React.Component {
       cardTrunfo,
       hasTrunfo,
       isSaveButtonDisabled,
+      savedCards,
     } = this.state;
 
     return (
@@ -83,6 +155,7 @@ class App extends React.Component {
         <h1>Tryunfo Project</h1>
         <Form
           onInputChange={ this.onInputChange }
+          onSaveButtonClick={ this.onSaveButtonClick }
           cardName={ cardName }
           cardDescription={ cardDescription }
           cardAttr1={ cardAttr1 }
@@ -103,7 +176,10 @@ class App extends React.Component {
           cardImage={ cardImage }
           cardRare={ cardRare }
           cardTrunfo={ cardTrunfo }
-          hasTrunfo={ hasTrunfo }
+        />
+        <Deck
+          savedCards={ savedCards }
+          deleteButtonClick={ this.deleteButtonClick }
         />
       </div>
     );
