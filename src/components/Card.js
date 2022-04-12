@@ -16,19 +16,19 @@ class Card extends React.Component {
 
     return (
       <div className="card-design">
-        <h4 data-testid="name-card">{ cardName }</h4>
+        <h2 data-testid="name-card">{ cardName }</h2>
         <img src={ cardImage } alt={ cardName } data-testid="image-card" />
-        <p data-testid="description-card">{ cardDescription }</p>
+        <p data-testid="description-card"><i>{ cardDescription }</i></p>
         <p data-testid="attr1-card">
-          Ataque:
+          Ataque...............................
           { cardAttr1 }
         </p>
         <p data-testid="attr2-card">
-          Defesa:
+          Defesa................................
           { cardAttr2 }
         </p>
         <p data-testid="attr3-card">
-          Físico:
+          Físico.................................
           { cardAttr3 }
         </p>
         <p data-testid="rare-card">{ cardRare }</p>

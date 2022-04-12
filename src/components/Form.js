@@ -45,6 +45,7 @@ class Form extends React.Component {
               id="card-description"
               placeholder="Descrição da Carta"
               data-testid="description-input"
+              maxLength="160"
               value={ cardDescription }
               onChange={ onInputChange }
               required
@@ -52,12 +53,13 @@ class Form extends React.Component {
           </label>
           <br />
           <label htmlFor="card-att-01">
-            Ataque
+            Ataque....................................................
             <input
+              className="numericValue"
               type="number"
               name="cardAttr1"
               id="card-att-01"
-              placeholder="Valor de Ataque"
+              placeholder="Valor"
               data-testid="attr1-input"
               min="0"
               max="90"
@@ -68,12 +70,13 @@ class Form extends React.Component {
           </label>
           <br />
           <label htmlFor="card-att-02">
-            Defesa
+            Defesa.....................................................
             <input
+              className="numericValue"
               type="number"
               name="cardAttr2"
               id="card-att-02"
-              placeholder="Valor de Defesa"
+              placeholder="Valor"
               data-testid="attr2-input"
               min="0"
               max="90"
@@ -84,12 +87,13 @@ class Form extends React.Component {
           </label>
           <br />
           <label htmlFor="card-att-03">
-            Físico
+            Físico.......................................................
             <input
+              className="numericValue"
               type="number"
               name="cardAttr3"
               id="card-att-03"
-              placeholder="Valor de Defesa"
+              placeholder="Valor"
               data-testid="attr3-input"
               min="0"
               max="90"
@@ -128,21 +132,23 @@ class Form extends React.Component {
             </select>
           </label>
           <br />
-          <label htmlFor="check">
-            Super Trunfo
+          <div className="check-form">
             { hasTrunfo
               ? <p>Você já tem um Super Trunfo em seu baralho</p>
               : (
-                <input
-                  type="checkbox"
-                  id="check"
-                  name="cardTrunfo"
-                  data-testid="trunfo-input"
-                  checked={ cardTrunfo }
-                  onChange={ onInputChange }
-                />
+                <label htmlFor="check">
+                  Esta carta é Super Trunfo?
+                  <input
+                    type="checkbox"
+                    id="check"
+                    name="cardTrunfo"
+                    data-testid="trunfo-input"
+                    checked={ cardTrunfo }
+                    onChange={ onInputChange }
+                  />
+                </label>
               )}
-          </label>
+          </div>
           <div>
             <button
               type="submit"

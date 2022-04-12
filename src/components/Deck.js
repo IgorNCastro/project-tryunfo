@@ -25,6 +25,7 @@ class Deck extends React.Component {
               cardTrunfo={ item.cardTrunfo }
             />
             <button
+              className="deck-button"
               id={ item.cardName }
               type="submit"
               name="delete-button"
