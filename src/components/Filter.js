@@ -8,6 +8,7 @@ class Filter extends React.Component {
       rareFilter,
       cardTrunfoFilter,
       onFilterChange,
+      onTrunfoChange,
     } = this.props;
 
     return (
@@ -21,6 +22,7 @@ class Filter extends React.Component {
             data-testid="name-filter"
             value={ nameFilter }
             onChange={ onFilterChange }
+            disabled={ cardTrunfoFilter }
           />
           <br />
           <select
@@ -28,6 +30,7 @@ class Filter extends React.Component {
             data-testid="rare-filter"
             onChange={ onFilterChange }
             value={ rareFilter }
+            disabled={ cardTrunfoFilter }
           >
             <option>todas</option>
             <option>normal</option>
@@ -44,7 +47,7 @@ class Filter extends React.Component {
                 name="cardTrunfoFilter"
                 data-testid="trunfo-filter"
                 checked={ cardTrunfoFilter }
-                onChange={ onFilterChange }
+                onChange={ onTrunfoChange }
               />
             </label>
           </div>
@@ -59,6 +62,7 @@ Filter.propTypes = {
   rareFilter: PropTypes.string.isRequired,
   cardTrunfoFilter: PropTypes.bool.isRequired,
   onFilterChange: PropTypes.func.isRequired,
+  onTrunfoChange: PropTypes.func.isRequired,
 };
 
 export default Filter;

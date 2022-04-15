@@ -7,14 +7,14 @@ import Filter from './components/Filter';
 class App extends React.Component {
   constructor() {
     super();
-
     this.onInputChange = this.onInputChange.bind(this);
     this.checkButton = this.checkButton.bind(this);
     this.onSaveButtonClick = this.onSaveButtonClick.bind(this);
     this.deleteButtonClick = this.deleteButtonClick.bind(this);
     this.onFilterChange = this.onFilterChange.bind(this);
     this.filterCards = this.filterCards.bind(this);
-
+    this.onTrunfoChange = this.onTrunfoChange.bind(this);
+    this.onTrunfoFilterChange = this.onTrunfoFilterChange.bind(this);
     this.state = {
       cardName: '',
       cardDescription: '',
@@ -47,16 +47,8 @@ class App extends React.Component {
 
   onSaveButtonClick(event) {
     event.preventDefault();
-    const {
-      cardName,
-      cardDescription,
-      cardImage,
-      cardRare,
-      cardAttr1,
-      cardAttr2,
-      cardAttr3,
-      cardTrunfo,
-    } = this.state;
+    const { cardName, cardDescription, cardImage, cardRare,
+      cardAttr1, cardAttr2, cardAttr3, cardTrunfo } = this.state;
 
     if (cardTrunfo) {
       this.setState({
@@ -72,8 +64,7 @@ class App extends React.Component {
       cardAttr1,
       cardAttr2,
       cardAttr3,
-      cardTrunfo,
-    };
+      cardTrunfo };
 
     // Extraído de https://stackoverflow.com/questions/26505064/what-is-the-best-way-to-add-a-value-to-an-array-in-state
     this.setState((previousState) => ({
@@ -92,8 +83,7 @@ class App extends React.Component {
   }
 
   onFilterChange({ target }) {
-    const { name } = target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const { name, value } = target;
     this.setState({
       [name]: value,
     }, () => {
@@ -101,16 +91,33 @@ class App extends React.Component {
     });
   }
 
+  onTrunfoChange({ target }) {
+    const { name } = target;
+    const value = target.checked;
+    this.setState({
+      [name]: value,
+    }, () => {
+      this.onTrunfoFilterChange();
+    });
+  }
+
+  onTrunfoFilterChange() {
+    const { cardTrunfoFilter, deckOfCards } = this.state;
+
+    if (cardTrunfoFilter === true) {
+      const filterTrunfo = deckOfCards.filter((e) => e.cardTrunfo === true);
+      return this.setState({
+        savedCards: filterTrunfo,
+      });
+    }
+    this.setState({
+      savedCards: deckOfCards,
+    });
+  }
+
   checkButton() {
-    const {
-      cardName,
-      cardDescription,
-      cardImage,
-      cardRare,
-      cardAttr1,
-      cardAttr2,
-      cardAttr3,
-    } = this.state;
+    const { cardName, cardDescription, cardImage, cardRare,
+      cardAttr1, cardAttr2, cardAttr3 } = this.state;
     const attValue1 = parseInt(cardAttr1, 10);
     const attValue2 = parseInt(cardAttr2, 10);
     const attValue3 = parseInt(cardAttr3, 10);
@@ -132,17 +139,13 @@ class App extends React.Component {
 
   deleteButtonClick(event) {
     event.preventDefault();
-    const {
-      savedCards,
-    } = this.state;
-
+    const { savedCards } = this.state;
     const selectedCard = savedCards.find((item) => item.cardName === event.target.id);
     if (selectedCard.cardTrunfo) {
       this.setState({
         hasTrunfo: false,
       });
     }
-
     for (let i = 0; i < savedCards.length; i += 1) {
       if (savedCards[i].cardName === event.target.id) {
         savedCards.splice(i, 1);
@@ -154,12 +157,7 @@ class App extends React.Component {
   }
 
   filterCards() {
-    const {
-      nameFilter,
-      rareFilter,
-      deckOfCards,
-    } = this.state;
-
+    const { nameFilter, rareFilter, deckOfCards } = this.state;
     if (nameFilter !== '') {
       const filterCards = deckOfCards.filter((e) => e.cardName.includes(nameFilter));
       this.setState({
@@ -233,6 +231,7 @@ class App extends React.Component {
           />
           <Filter
             onFilterChange={ this.onFilterChange }
+            onTrunfoChange={ this.onTrunfoChange }
             nameFilter={ nameFilter }
             rareFilter={ rareFilter }
             cardTrunfoFilter={ cardTrunfoFilter }
