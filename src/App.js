@@ -2,6 +2,7 @@ import React from 'react';
 import Form from './components/Form';
 import Card from './components/Card';
 import Deck from './components/Deck';
+import Filter from './components/Filter';
 
 class App extends React.Component {
   constructor() {
@@ -11,6 +12,8 @@ class App extends React.Component {
     this.checkButton = this.checkButton.bind(this);
     this.onSaveButtonClick = this.onSaveButtonClick.bind(this);
     this.deleteButtonClick = this.deleteButtonClick.bind(this);
+    this.onFilterChange = this.onFilterChange.bind(this);
+    this.filterCards = this.filterCards.bind(this);
 
     this.state = {
       cardName: '',
@@ -23,11 +26,15 @@ class App extends React.Component {
       cardTrunfo: false,
       hasTrunfo: false,
       isSaveButtonDisabled: true,
+      nameFilter: '',
+      rareFilter: 'todas',
+      cardTrunfoFilter: false,
       savedCards: [],
+      deckOfCards: [],
     };
   }
 
-  // Código das linhas 34/35 e 105/109 retirado de dúvida postada no Slack do colega Yuri Resende, respondidos pelos colegas Italo Rockenbach e Giuseppe Nunes.
+  // Código abaixo retirado de dúvida postada no Slack do colega Yuri Resende, respondidos pelos colegas Italo Rockenbach e Giuseppe Nunes.
   onInputChange({ target }) {
     const { name } = target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -71,6 +78,7 @@ class App extends React.Component {
     // Extraído de https://stackoverflow.com/questions/26505064/what-is-the-best-way-to-add-a-value-to-an-array-in-state
     this.setState((previousState) => ({
       savedCards: [...previousState.savedCards, currentCard],
+      deckOfCards: [...previousState.savedCards, currentCard],
       cardName: '',
       cardDescription: '',
       cardAttr1: '0',
@@ -81,6 +89,16 @@ class App extends React.Component {
       cardTrunfo: false,
       isSaveButtonDisabled: true,
     }));
+  }
+
+  onFilterChange({ target }) {
+    const { name } = target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    this.setState({
+      [name]: value,
+    }, () => {
+      this.filterCards();
+    });
   }
 
   checkButton() {
@@ -135,6 +153,32 @@ class App extends React.Component {
     });
   }
 
+  filterCards() {
+    const {
+      nameFilter,
+      rareFilter,
+      deckOfCards,
+    } = this.state;
+
+    if (nameFilter !== '') {
+      const filterCards = deckOfCards.filter((e) => e.cardName.includes(nameFilter));
+      this.setState({
+        savedCards: filterCards,
+      });
+    }
+    if (nameFilter === '') {
+      this.setState({
+        savedCards: deckOfCards,
+      });
+    }
+    if (rareFilter !== 'todas') {
+      const filterRare = deckOfCards.filter((e) => e.cardRare === rareFilter);
+      this.setState({
+        savedCards: filterRare,
+      });
+    }
+  }
+
   render() {
     const {
       cardName,
@@ -148,6 +192,9 @@ class App extends React.Component {
       hasTrunfo,
       isSaveButtonDisabled,
       savedCards,
+      nameFilter,
+      rareFilter,
+      cardTrunfoFilter,
     } = this.state;
 
     return (
@@ -183,6 +230,12 @@ class App extends React.Component {
             cardImage={ cardImage }
             cardRare={ cardRare }
             cardTrunfo={ cardTrunfo }
+          />
+          <Filter
+            onFilterChange={ this.onFilterChange }
+            nameFilter={ nameFilter }
+            rareFilter={ rareFilter }
+            cardTrunfoFilter={ cardTrunfoFilter }
           />
           <Deck
             savedCards={ savedCards }

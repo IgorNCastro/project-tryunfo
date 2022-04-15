@@ -147,6 +147,15 @@ button:disabled {
   margin: 0 30%;
 }
 
+.filter-div {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin: 30px;
+  border-top: 3px solid black;
+  border-bottom: 3px solid black;
+}
+
  /* Design extraido do site https://lenadesign.org/2021/03/29/css-bouncing-basketball/ */ 
 .basketball {
   position: relative;
@@ -165,6 +174,7 @@ button:disabled {
   border: 3px solid #333;
   animation: bounce 1.5s ease-in infinite;
 }
+
 .ball:before, .ball:after {
   content:"";
   position: absolute;
